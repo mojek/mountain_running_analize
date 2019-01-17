@@ -16,8 +16,10 @@ external_stylesheets = [
 
 
 app = dash.Dash(__name__,
-                external_stylesheets=external_stylesheets)
+                external_stylesheets=external_stylesheets
+                )
 server = app.server
+app.title = 'Mountain running analizer'
 app.layout = html.Div(className="container-fluid",
                       children=[
                           html.H1(children='Mountain running analizer'),
