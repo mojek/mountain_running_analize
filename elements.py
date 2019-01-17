@@ -19,14 +19,33 @@ def drop_down_select_run(element_id):
     return drop_down_select_run
 
 
-def scatter(x, y, title, x_label, y_label):
+def scatter(x, y, title, x_label, y_label, prediction=None):
     data = [
         go.Scatter(
             x=x,
             y=y,
             mode='markers',
+            name='wyniki historyczne',
+            marker=dict(
+                opacity=0.8
+            )
         )
+
     ]
+    if prediction:
+        data.append(
+            go.Scatter(
+                x=[3.0],
+                y=[0.8],
+                mode='markers',
+                name='predykcja',
+                marker=dict(
+                    size=15,
+                    color='rgb(255, 0, 0)'
+                )
+            )
+        )
+
     layout = go.Layout(
         title=title,  # Graph title
         xaxis=dict(title=x_label),  # x-axis label

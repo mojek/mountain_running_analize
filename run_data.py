@@ -24,7 +24,11 @@ class RunData:
         self.dataframe = self.load_to_dataframe()
 
     def load_to_dataframe(self):
-        df = pd.read_csv(self.filename)
+        def dateparse(x): return pd.datetime.strptime(x, '%Y-%m-%d')
+        df = pd.read_csv(self.filename,
+                         parse_dates=['race_date'],
+                         date_parser=dateparse)
         df.dropna(subset=['best10km', 'wynik'], inplace=True)
         df = df[(np.abs(stats.zscore(df['best10km'])) < 3)]  # remove outliers
+        df['year_old'] = df['race_date'].dt.year - df['rok_urodzenia']
         return df

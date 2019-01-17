@@ -34,7 +34,7 @@ def update_scatter(selected_run):
     df = rd.dataframe
     scatter = elements.scatter(
         df['wynik'], df['best10km'],
-        'Wykres wyniki do rok_urodzenia', 'wyniki', 'rok_urodzenia')
+        rd.fullname, 'wyniki', 'rok_urodzenia', True)
     return scatter
 
 
