@@ -23,8 +23,18 @@ app.title = 'Mountain running analizer'
 app.layout = html.Div(className="container-fluid",
                       children=[
                           html.H1(children='Mountain running analizer'),
+
+                          html.Div(
+                              className="mycont2", children=[
+                                  html.Label('Wiek biegacza'),
+                                  elements.slider_year_old('select_year_old')]),
+                          html.Div(
+                              className="mycont", children=[
+                                  html.Label('Najlepszy czas na 10km'),
+                                  elements.slider_best10('select_best10')]),
                           html.Div(
                               [elements.drop_down_select_run('select_run')]),
+
                           html.Div([dcc.Graph(id='scatter-graph')])
                       ])
 

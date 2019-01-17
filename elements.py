@@ -2,6 +2,8 @@ import dash_core_components as dcc
 import plotly.offline as pyo
 import plotly.graph_objs as go
 from run_data import RunData
+import numpy as np
+import datetime
 
 
 list_of_runs = RunData.accepted_run
@@ -17,6 +19,27 @@ def drop_down_select_run(element_id):
         value=first_run_key
     )
     return drop_down_select_run
+
+
+def slider_year_old(element_id):
+    slider = dcc.Slider(
+        min=16,
+        max=90,
+        marks={i: '{}'.format(i) for i in range(16, 91, 2)},
+        value=38,
+    )
+    return slider
+
+
+def slider_best10(element_id):
+    slider = dcc.Slider(
+        min=50,
+        max=150,
+        marks={round(i, 2): float_to_time(i/100)
+               for i in range(5, 150, 5)},
+        value=100,
+    )
+    return slider
 
 
 def scatter(x, y, title, x_label, y_label, prediction=None):
@@ -55,3 +78,8 @@ def scatter(x, y, title, x_label, y_label, prediction=None):
     )
     fig = go.Figure(data=data, layout=layout)
     return fig
+
+
+def float_to_time(f):
+    delta = datetime.timedelta(hours=f)
+    return str(delta)
