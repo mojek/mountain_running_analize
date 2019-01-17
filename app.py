@@ -1,7 +1,9 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
 import elements
+from run_data import RunData
 external_stylesheets = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css',
     {
@@ -19,8 +21,21 @@ app = dash.Dash(__name__,
 app.layout = html.Div(className="container-fluid",
                       children=[
                           html.H1(children='Mountain running analizer'),
-                          html.Div([elements.drop_down_select_run()])
+                          html.Div(
+                              [elements.drop_down_select_run('select_run')]),
+                          html.Div([dcc.Graph(id='scatter-graph')])
                       ])
+
+
+@app.callback(Output('scatter-graph', 'figure'),
+              [Input('select_run', 'value')])
+def update_scatter(selected_run):
+    rd = RunData(selected_run)
+    df = rd.dataframe
+    scatter = elements.scatter(
+        df['wynik'], df['best10km'],
+        'Wykres wyniki do rok_urodzenia', 'wyniki', 'rok_urodzenia')
+    return scatter
 
 
 if __name__ == '__main__':
