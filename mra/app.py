@@ -2,8 +2,8 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-import elements
-from run_data import RunData
+from mra import elements
+from mra.run_data import RunData
 external_stylesheets = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css',
     {
@@ -50,5 +50,5 @@ def update_scatter(selected_run):
     return scatter
 
 
-if __name__ == '__main__':
+def run():
     app.run_server()

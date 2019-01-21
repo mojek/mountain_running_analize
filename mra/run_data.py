@@ -9,11 +9,11 @@ from sklearn.model_selection import train_test_split
 class RunData:
     accepted_run = {
         'chyza': {
-            'filename': 'data/chyza_durbaszka_all_clean_endu.csv',
+            'filename': 'mra/data/chyza_durbaszka_all_clean_endu.csv',
             'fullname': 'Szczawnica - Chyża dubraszka - 19.9KM'
         },
-        'prehyba':   {
-            'filename': 'data/wielka_prehyba_all_with_endu.csv',
+        'prehyba': {
+            'filename': 'mra/data/wielka_prehyba_all_with_endu.csv',
             'fullname': 'Szczawnica - Wielka Prehyba - 43.3KM'
 
         }

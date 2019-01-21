@@ -1,7 +1,7 @@
 import dash_core_components as dcc
 import plotly.offline as pyo
 import plotly.graph_objs as go
-from run_data import RunData
+from mra.run_data import RunData
 import numpy as np
 import datetime
 
@@ -35,7 +35,7 @@ def slider_best10(element_id):
     slider = dcc.Slider(
         min=50,
         max=150,
-        marks={round(i, 2): float_to_time(i/100)
+        marks={round(i, 2): float_to_time(i / 100)
                for i in range(5, 150, 5)},
         value=100,
     )
@@ -44,29 +44,11 @@ def slider_best10(element_id):
 
 def scatter(x, y, title, x_label, y_label, prediction=None):
     data = [
-        go.Scatter(
-            x=x,
-            y=y,
-            mode='markers',
-            name='wyniki historyczne',
-            marker=dict(
-                opacity=0.8
-            )
-        )
-
+        historic_scatter(x, y)
     ]
     if prediction:
         data.append(
-            go.Scatter(
-                x=[3.0],
-                y=[0.8],
-                mode='markers',
-                name='predykcja',
-                marker=dict(
-                    size=15,
-                    color='rgb(255, 0, 0)'
-                )
-            )
+            prediction_scatter()
         )
 
     layout = go.Layout(
@@ -83,3 +65,30 @@ def scatter(x, y, title, x_label, y_label, prediction=None):
 def float_to_time(f):
     delta = datetime.timedelta(hours=f)
     return str(delta)
+
+
+def prediction_scatter():
+    scatter = go.Scatter(
+        x=[3.0],
+        y=[0.8],
+        mode='markers',
+        name='predykcja',
+        marker=dict(
+            size=15,
+            color='rgb(255, 0, 0)'
+        )
+    )
+    return scatter
+
+
+def historic_scatter(x, y):
+    scatter = go.Scatter(
+        x=x,
+        y=y,
+        mode='markers',
+        name='wyniki historyczne',
+        marker=dict(
+            opacity=0.8
+        )
+    )
+    return scatter
