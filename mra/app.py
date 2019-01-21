@@ -4,6 +4,8 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 from mra import elements
 from mra.run_data import RunData
+from mra.person import Person
+import datetime
 external_stylesheets = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css',
     {
@@ -13,42 +15,63 @@ external_stylesheets = [
         'crossorigin': 'anonymous'
     }
 ]
+external_scripts = [
+    {
+        'src': "https://www.googletagmanager.com/gtag/js?id=UA-18013743-7",
+        'async': ''
+    },
+    '//assets/ga.js'
+
+]
 
 
-app = dash.Dash(__name__,
-                external_stylesheets=external_stylesheets
-                )
-server = app.server
-app.title = 'Mountain running analizer'
-app.layout = html.Div(className="container-fluid",
-                      children=[
-                          html.H1(children='Mountain running analizer'),
+app_dash = dash.Dash(__name__,
+                     external_stylesheets=external_stylesheets,
+                     external_scripts=external_scripts
+                     )
+server = app_dash.server
+app_dash.title = 'Mountain running analizer'
+app_dash.layout = html.Div(className="container-fluid",
+                           children=[
+                               html.H1(children='Mountain running analizer'),
+                               html.Div(
+                                   [elements.drop_down_select_run('select_run')]),
+                               html.Div(
+                                   className="mycont3", children=[
+                                       html.Label('Płeć biegacza'),
+                                       elements.radio_sex('select_sex')]),
+                               html.Div(
+                                   className="mycont2", children=[
+                                       html.Label('Wiek biegacza'),
+                                       elements.slider_year_old('select_year_old')]),
+                               html.Div(
+                                   className="mycont", children=[
+                                       html.Label('Najlepszy czas na 10km'),
+                                       elements.slider_best10('select_best10')]),
 
-                          html.Div(
-                              className="mycont2", children=[
-                                  html.Label('Wiek biegacza'),
-                                  elements.slider_year_old('select_year_old')]),
-                          html.Div(
-                              className="mycont", children=[
-                                  html.Label('Najlepszy czas na 10km'),
-                                  elements.slider_best10('select_best10')]),
-                          html.Div(
-                              [elements.drop_down_select_run('select_run')]),
 
-                          html.Div([dcc.Graph(id='scatter-graph')])
-                      ])
+                               html.Div([dcc.Graph(id='scatter-graph')])
+                           ])
 
 
-@app.callback(Output('scatter-graph', 'figure'),
-              [Input('select_run', 'value')])
-def update_scatter(selected_run):
+@app_dash.callback(Output('scatter-graph', 'figure'),
+                   [Input('select_run', 'value'),
+                    Input('select_best10', 'value'),
+                    Input('select_year_old', 'value'),
+                    Input('select_sex', 'value')])
+def update_scatter_with_prediction(selected_run, select_best10,  select_year_old, select_sex):
     rd = RunData(selected_run)
     df = rd.dataframe
+    person = Person(select_year_old, select_best10/100, select_sex)
+    prediction = rd.predict(person)
+    title_of_scatter = f" {rd.fullname}. {person} Przewidywany wynik końcowy: {str(datetime.timedelta(hours=prediction)).split('.')[0]}"
+    scater_with_prediction = elements.prediction_scatter(
+        prediction, person.best10km)
     scatter = elements.scatter(
         df['wynik'], df['best10km'],
-        rd.fullname, 'wyniki', 'rok_urodzenia', True)
+        title_of_scatter, 'wyniki', 'najlepszy czas na 10Km', scater_with_prediction)
     return scatter
 
 
 def run():
-    app.run_server()
+    app_dash.run_server()

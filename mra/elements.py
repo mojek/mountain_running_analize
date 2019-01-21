@@ -21,8 +21,22 @@ def drop_down_select_run(element_id):
     return drop_down_select_run
 
 
+def radio_sex(element_id):
+    radio_dcc = dcc.RadioItems(
+        id=element_id,
+        options=[
+            {'label': 'Kobieta', 'value': 'W'},
+            {'label': 'Mężczyzna', 'value': 'M'},
+
+        ],
+        value='W'
+    )
+    return radio_dcc
+
+
 def slider_year_old(element_id):
     slider = dcc.Slider(
+        id=element_id,
         min=16,
         max=90,
         marks={i: '{}'.format(i) for i in range(16, 91, 2)},
@@ -33,6 +47,7 @@ def slider_year_old(element_id):
 
 def slider_best10(element_id):
     slider = dcc.Slider(
+        id=element_id,
         min=50,
         max=150,
         marks={round(i, 2): float_to_time(i / 100)
@@ -42,13 +57,13 @@ def slider_best10(element_id):
     return slider
 
 
-def scatter(x, y, title, x_label, y_label, prediction=None):
+def scatter(x, y, title, x_label, y_label, prediction_scatter=None):
     data = [
         historic_scatter(x, y)
     ]
-    if prediction:
+    if prediction_scatter:
         data.append(
-            prediction_scatter()
+            prediction_scatter
         )
 
     layout = go.Layout(
@@ -56,7 +71,8 @@ def scatter(x, y, title, x_label, y_label, prediction=None):
         xaxis=dict(title=x_label),  # x-axis label
         yaxis=dict(title=y_label),  # y-axis label
         hovermode='closest',  # handles multiple points landing on the same vertical
-        height=800
+        height=600,
+        showlegend=False
     )
     fig = go.Figure(data=data, layout=layout)
     return fig
@@ -67,10 +83,10 @@ def float_to_time(f):
     return str(delta)
 
 
-def prediction_scatter():
+def prediction_scatter(x, y):
     scatter = go.Scatter(
-        x=[3.0],
-        y=[0.8],
+        x=[x],
+        y=[y],
         mode='markers',
         name='predykcja',
         marker=dict(

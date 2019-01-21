@@ -1,5 +1,7 @@
 import pytest
+import numpy as np
 from mra.run_data import RunData
+from mra.person import Person
 import pandas as pd
 list_of_runs = RunData.accepted_run
 first_run_key = list(list_of_runs.keys())[0]
@@ -20,3 +22,10 @@ def test_init():
 def test_data_frame():
     rd = RunData(first_run_key)
     assert type(rd.dataframe) == pd.DataFrame
+
+
+def test_predict():
+    rd = RunData(first_run_key)
+    p1 = Person(38, 1, 'W')
+    prediction = rd.predict(p1)
+    assert type(prediction) == float

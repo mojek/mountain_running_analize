@@ -4,6 +4,7 @@ from scipy import stats
 from sklearn import metrics
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
+from mra.person import Person
 
 
 class RunData:
@@ -56,4 +57,10 @@ class RunData:
         return lm
 
     def predict(self, person):
-        return self.linear_regresion.predict(person)
+        if type(person) != Person:
+            raise TypeError
+        person_df = person.to_dataframe()
+
+        full_hour_predict = float(self.linear_regresion.predict(person_df)[0])
+
+        return full_hour_predict
