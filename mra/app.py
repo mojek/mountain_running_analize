@@ -30,10 +30,10 @@ app_dash = dash.Dash(__name__,
                      external_scripts=external_scripts
                      )
 server = app_dash.server
-app_dash.title = 'Mountain running analizer'
+app_dash.title = 'MRA Szczawnica'
 app_dash.layout = html.Div(className="container-fluid",
                            children=[
-                               html.H1(children='Mountain running analizer'),
+                               html.H1(children='MRA Szczawnica'),
                                html.Div(
                                    [elements.drop_down_select_run('select_run')]),
                                html.Div(
