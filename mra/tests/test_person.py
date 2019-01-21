@@ -1,4 +1,4 @@
-from person import Person
+from mra.person import Person
 import pytest
 import pandas as pd
 

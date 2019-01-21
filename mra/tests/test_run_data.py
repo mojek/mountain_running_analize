@@ -1,5 +1,5 @@
 import pytest
-from run_data import RunData
+from mra.run_data import RunData
 import pandas as pd
 list_of_runs = RunData.accepted_run
 first_run_key = list(list_of_runs.keys())[0]
