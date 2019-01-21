@@ -24,8 +24,16 @@ def test_data_frame():
     assert type(rd.dataframe) == pd.DataFrame
 
 
+def test_print_predict_in_nice_string():
+    assert RunData.print_predict_in_nice_string(1) == '1:00:00'
+    assert RunData.print_predict_in_nice_string(1.5) == '1:30:00'
+    assert len(RunData.print_predict_in_nice_string(1.521)) == 7
+
+
 def test_predict():
     rd = RunData(first_run_key)
     p1 = Person(38, 1, 'W')
     prediction = rd.predict(p1)
     assert type(prediction) == float
+    prediction = rd.predict(p1, True)
+    assert type(prediction) == str

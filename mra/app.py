@@ -59,12 +59,12 @@ app_dash.layout = html.Div(className="container-fluid",
                     Input('select_best10', 'value'),
                     Input('select_year_old', 'value'),
                     Input('select_sex', 'value')])
-def update_scatter_with_prediction(selected_run, select_best10,  select_year_old, select_sex):
+def update_scatter_with_prediction(selected_run, select_best10, select_year_old, select_sex):
     rd = RunData(selected_run)
     df = rd.dataframe
     person = Person(select_year_old, select_best10/100, select_sex)
     prediction = rd.predict(person)
-    title_of_scatter = f" {rd.fullname}. {person} Przewidywany wynik końcowy: {str(datetime.timedelta(hours=prediction)).split('.')[0]}"
+    title_of_scatter = f" {rd.fullname}. {person} Przewidywany wynik końcowy: {RunData.print_predict_in_nice_string(prediction)}"
     scater_with_prediction = elements.prediction_scatter(
         prediction, person.best10km)
     scatter = elements.scatter(

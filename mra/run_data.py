@@ -5,6 +5,7 @@ from sklearn import metrics
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from mra.person import Person
+import datetime
 
 
 class RunData:
@@ -56,11 +57,17 @@ class RunData:
         lm.fit(X_train, y_train)
         return lm
 
-    def predict(self, person):
+    def predict(self, person, nice_str=False):
         if type(person) != Person:
             raise TypeError
         person_df = person.to_dataframe()
 
         full_hour_predict = float(self.linear_regresion.predict(person_df)[0])
+        if nice_str:
+            return RunData.print_predict_in_nice_string(full_hour_predict)
+        else:
+            return full_hour_predict
 
-        return full_hour_predict
+    @staticmethod
+    def print_predict_in_nice_string(prediction):
+        return str(datetime.timedelta(hours=prediction)).split('.')[0]
