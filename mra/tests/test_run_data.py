@@ -1,5 +1,4 @@
 import pytest
-import numpy as np
 from mra.run_data import RunData
 from mra.person import Person
 import pandas as pd
@@ -15,7 +14,7 @@ def test_init():
     assert rd.key == first_run_key
     assert rd.filename == list_of_runs[first_run_key]['filename']
     run_that_dont_exist = "Super run name this name dont exist"
-    assert (run_that_dont_exist in list_of_runs) == False
+    assert (run_that_dont_exist in list_of_runs) is False
     with pytest.raises(KeyError):
         rd = RunData(run_that_dont_exist)
 
