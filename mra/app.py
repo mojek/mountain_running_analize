@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output
 from mra import elements
 from mra.run_data import RunData
 from mra.person import Person
-import datetime
+
 external_stylesheets = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css',
     {

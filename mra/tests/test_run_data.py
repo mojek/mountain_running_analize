@@ -8,6 +8,7 @@ first_run_key = list(list_of_runs.keys())[0]
 
 
 def test_init():
+    # test
     rd = RunData(first_run_key)
     assert type(rd) == RunData
     assert rd.fullname == list_of_runs[first_run_key]['fullname']
