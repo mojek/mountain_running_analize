@@ -50,7 +50,10 @@ app.layout = html.Div(className="container-fluid",
                                   elements.slider_best10('select_best10')]),
 
 
-                          html.Div([dcc.Graph(id='scatter-graph')])
+                          html.Div([dcc.Graph(id='scatter-graph')]),
+                          html.A(
+                              'created by mojek',
+                              href='https://www.linkedin.com/in/mojek/')
                       ])
 
 
